@@ -27,7 +27,7 @@ const DashboardList = ({ title, items = [], loading = false, mode }) => {
                         return (
                             <ListItem
                                 key={item._id || item.id}
-                                title={item.title}
+                                title={item.category || item.source}
                                 date={new Date(item.date || item.createdAt).toLocaleDateString()}
                                 amount={item.amount}
                                 icon={icon}

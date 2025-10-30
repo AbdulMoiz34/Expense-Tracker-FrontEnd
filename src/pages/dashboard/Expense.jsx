@@ -17,7 +17,12 @@ const Expense = () => {
     };
 
     const handleDelete = async (id) => {
-        await deleteExpense(id);
+        try {
+            const result = await deleteExpense(id);
+            console.log(result);
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     return (
