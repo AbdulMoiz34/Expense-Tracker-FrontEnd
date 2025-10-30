@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://expense-tracker-backend-aujw9a3f1-abdulmoiz34s-projects.vercel.app/api";
+export const API_BASE_URL = "https://expense-tracker-backend-amber.vercel.app/api";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -18,6 +18,3 @@ api.interceptors.request.use((config) => {
 });
 
 export default api;
-
-
-
