@@ -1,5 +1,6 @@
 import { FiArrowRight, FiCreditCard } from "react-icons/fi";
 import ListItem from "./ListItem";
+import { Link } from "react-router-dom";
 
 const DashboardList = ({ title, items = [], loading = false, mode }) => {
     return (
@@ -7,10 +8,10 @@ const DashboardList = ({ title, items = [], loading = false, mode }) => {
             {/* Header */}
             <div className="flex items-center justify-between mb-5">
                 <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
-                <button className="flex items-center gap-1 text-sm text-gray-500 hover:text-indigo-600 font-medium transition">
+                <Link to="/expense" className="flex items-center gap-1 text-sm text-gray-500 hover:text-indigo-600 font-medium transition">
                     See All
                     <FiArrowRight size={16} className="mt-0.5 transition-transform group-hover:translate-x-1" />
-                </button>
+                </Link>
             </div>
             {/* List Items */}
             <div className="flex flex-col gap-4">

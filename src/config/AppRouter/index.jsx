@@ -24,6 +24,7 @@ const AppRouter = () => {
                 <Route path="/income" element={<Income />} />
                 <Route path="/expense" element={<Expense />} />
             </Route>
+            <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
     )
 }

@@ -3,6 +3,7 @@ import TransactionModal from "../../components/TransactionModal";
 import { Card } from "../../components/Dashboard";
 import { useGetIncomesQuery, useAddIncomeMutation, useDeleteIncomeMutation } from "../../services/apiSlice";
 import { FiTrash2 } from "react-icons/fi";
+import { message } from "antd";
 
 const Income = () => {
     const [open, setOpen] = useState(false);
@@ -13,7 +14,17 @@ const Income = () => {
     const total = useMemo(() => items.reduce((sum, x) => sum + (x.amount || 0), 0), [items]);
 
     const handleAdd = async (tx) => {
-        await addIncome({ source: tx.title, amount: tx.amount, date: tx.date });
+        if (!tx.title || !tx.amount || tx.amount <= 0) {
+            console.log("Please provide valid title and amount.");
+            return message.error("Please provide valid title and amount.");
+        }
+
+        try {
+            await addIncome({ source: tx.title, amount: tx.amount, date: tx.date });
+        } catch (err) {
+            console.error("Failed to add income:", err);
+        }
+
     };
 
     const handleDelete = async (id) => {

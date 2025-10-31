@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { setCredentials } from "../../store/slices/authSlice";
 import { useRegisterMutation } from "../../services/apiSlice";
 import { useNavigate, Link } from "react-router-dom";
+import { uploadFileOnCloudinary } from "../../helpers";
 
 const Signup = () => {
     const [formData, setFormData] = useState({
@@ -19,7 +20,8 @@ const Signup = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [register, { isLoading, error, isSuccess, data }] = useRegisterMutation();
+    const [register, { error, isSuccess, data }] = useRegisterMutation();
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -51,17 +53,18 @@ const Signup = () => {
             setImgError("Profile image is required");
             return;
         }
+
         setImgError("");
-        // Build FormData for submit
-        const data = new FormData();
-        data.append("fullName", formData.fullName);
-        data.append("email", formData.email);
-        data.append("password", formData.password);
-        data.append("image", image);
+        setLoading(true);
         try {
-            const res = await register(data).unwrap();
+            const imageUrl = await uploadFileOnCloudinary(image);
+            const res = await register({ ...formData, imageUrl }).unwrap();
             dispatch(setCredentials({ user: res.user, token: res.token }));
-        } catch {}
+        } catch (error) {
+            console.log("resoponse error -->", error)
+        } finally {
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
@@ -74,7 +77,7 @@ const Signup = () => {
         <div className="min-h-screen flex justify-center items-start lg:items-center p-4 bg-white dark:bg-gray-900 font-sans">
             <div className="grid grid-cols-1 lg:grid-cols-2 w-full max-w-7xl h-full lg:h-[700px] bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-2xl">
                 {/* === LEFT SIDE: FORM === */}
-                <div className="p-8 md:p-16 flex flex-col justify-center">
+                <div className="p-4 flex flex-col justify-center">
                     <div className="max-w-md w-full mx-auto">
                         {/* Logo/App Name */}
                         <div className="mb-10 text-xl font-bold text-gray-900 dark:text-white">
@@ -91,7 +94,7 @@ const Signup = () => {
                         <div className="flex flex-col items-center mb-6">
                             <div
                                 tabIndex={0}
-                                className={`relative p-1 cursor-pointer rounded-full transition mb-2 ${imgPreview
+                                className={`relative  cursor-pointer rounded-full transition mb-2 ${imgPreview
                                     ? 'shadow-lg ring-2 ring-indigo-300/60'
                                     : 'border-2 border-dashed border-indigo-400 hover:border-indigo-600'
                                     }`}
@@ -116,7 +119,7 @@ const Signup = () => {
                                     type="file"
                                     accept="image/*"
                                     ref={fileInput}
-                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                    className="absolute hidden inset-0 w-full h-full opacity-0 cursor-pointer"
                                     onChange={handleImageChange}
                                     required
                                 />
@@ -156,10 +159,11 @@ const Signup = () => {
                             </div>
                             <div>
                                 <button
+                                    disabled={loading}
                                     type="submit"
                                     className="w-full flex justify-center py-3 px-4 rounded-xl shadow-lg text-lg font-semibold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-indigo-500 focus:ring-offset-white dark:focus:ring-offset-gray-900 transition duration-300 ease-in-out transform hover:scale-[1.005] active:scale-[0.995]"
                                 >
-                                    {isLoading ? "Creating account..." : "SIGN UP"}
+                                    {loading ? "Creating account..." : "SIGN UP"}
                                 </button>
                             </div>
                         </form>
