@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { Card, DashboardList } from "../../components/Dashboard";
 import { useGetIncomesQuery, useGetExpensesQuery } from "../../services/apiSlice";
+import StatsChart from "../../components/Dashboard/StatsChart";
 
 const Home = () => {
     const { data: incomes = [], isLoading: loadingIncome } = useGetIncomesQuery();
@@ -34,6 +35,11 @@ const Home = () => {
                 <DashboardList title="Recent Expenses" items={recentExpenses} loading={loading} mode="expense" />
                 <DashboardList title="Recent Transactions" items={recentTransactions} loading={loading} />
             </div>
+            <StatsChart data={[
+                { name: "Total Balance", value: balance },
+                { name: "Total Income", value: totalIncome },
+                { name: "Total Expenses", value: totalExpenses }
+            ]} />
         </div>
     );
 };

@@ -19,7 +19,7 @@ const Sidebar = () => {
                 <img
                     src={user?.imageUrl}
                     alt="User Avatar"
-                    className="w-20 h-20 rounded-full border-4 border-purple-500"
+                    className="w-20 h-20 object-cover rounded-full border-4 border-purple-500"
                 />
                 <h2 className="mt-3 text-xl font-semibold text-gray-800 capitalize bg-gray-100 px-4 rounded-sm py-1">{user?.fullName}</h2>
             </div>

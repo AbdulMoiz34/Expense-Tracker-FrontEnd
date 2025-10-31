@@ -2,12 +2,12 @@ import { useState } from "react";
 import { FiX, FiImage } from "react-icons/fi";
 
 const TransactionModal = ({ type = "income", onClose, onSubmit }) => {
-    
+
     const [title, setTitle] = useState("");
     const [amount, setAmount] = useState("");
     const [date, setDate] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!title || !amount || !date) return;
 
@@ -19,7 +19,9 @@ const TransactionModal = ({ type = "income", onClose, onSubmit }) => {
             type,
         };
 
-        onSubmit(newTransaction);
+        const res = await onSubmit(newTransaction);
+        console.log(res);
+        if (res !== undefined) return;
         onClose();
     };
 
@@ -46,14 +48,14 @@ const TransactionModal = ({ type = "income", onClose, onSubmit }) => {
                 {/* Form */}
                 <form onSubmit={handleSubmit} className="space-y-5">
                     {/* Icon Picker */}
-                    <div className="flex items-center gap-3">
+                    {/* <div className="flex items-center gap-3">
                         <div
                             className={`w-14 h-14 bg-${color}-100 flex items-center justify-center rounded-xl`}
                         >
                             <FiImage className={`text-${color}-500 text-2xl`} />
                         </div>
                         <span className="text-gray-600 font-medium">Pick Icon</span>
-                    </div>
+                    </div> */}
 
                     {/* Title / Source */}
                     <div>
