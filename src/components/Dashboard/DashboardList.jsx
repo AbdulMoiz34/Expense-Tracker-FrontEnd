@@ -23,7 +23,7 @@ const DashboardList = ({ title, items = [], loading = false, mode }) => {
                 {loading ? (
                     <div className="text-gray-400">Loading...</div>
                 ) : items.length === 0 ? (
-                    <div className="text-gray-500">No items found</div>
+                    <div className="text-gray-500">{title} not found</div>
                 ) : (
                     items.map((item) => {
                         const icon = <FiCreditCard className={iconColor} />;

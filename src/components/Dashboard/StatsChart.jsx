@@ -15,7 +15,7 @@ const CustomTooltip = ({ active, payload }) => {
                         className="font-bold text-base"
                         style={{ color: item.color }}
                     >
-                        Rs. {item.value.toLocaleString()}
+                        Rs. {item.value}
                     </span>
                 </div>
             </div>
@@ -27,8 +27,10 @@ const CustomTooltip = ({ active, payload }) => {
 
 const StatsChart = ({ data }) => {
 
+    const isEmpty = data.every(item => item.value === 0);
+    if (isEmpty) return null;
     return (
-        <div className="bg-white rounded-2xl shadow-xl p-8 mt-8 w-full mx-auto transition-all duration-300">
+        <div className={`bg-white ${!data.length && "hidden"} rounded-2xl shadow-xl p-8 mt-8 w-full mx-auto transition-all duration-300`}>
 
             <h2 className="text-2xl font-bold text-gray-800 mb-4">
                 Expense Overview
@@ -57,15 +59,6 @@ const StatsChart = ({ data }) => {
                         </Pie>
 
                         <Tooltip content={<CustomTooltip />} />
-
-                        <Pie
-                            data={[{ value: 1, name: 'Total' }]}
-                            dataKey="value"
-                            cx="50%"
-                            cy="50%"
-                            outerRadius={0}
-                        />
-
                     </PieChart>
                 </ResponsiveContainer>
             </div>
