@@ -2,13 +2,13 @@ import { useMemo, useState } from "react";
 import TransactionModal from "../../components/TransactionModal";
 import { Card } from "../../components/Dashboard";
 import { useGetExpensesQuery, useAddExpenseMutation, useDeleteExpenseMutation } from "../../services/apiSlice";
-import { FiTrash2, FiArrowDownCircle } from "react-icons/fi";
-import { message } from "antd";
+import { FiTrash2, FiArrowDownCircle, FiDownload } from "react-icons/fi";
+import { message, Tooltip } from "antd";
+import { exportToExcel, formattedDate } from "../../helpers";
 
 const ExpenseListItem = ({ x, handleDelete }) => {
     const amount = Math.abs(x.amount || 0);
     const categoryText = x.category || "Expense";
-    const formattedDate = new Date(x.date || x.createdAt).toLocaleDateString();
 
     return (
         <div
@@ -17,7 +17,7 @@ const ExpenseListItem = ({ x, handleDelete }) => {
         >
             <div>
                 <p className="text-gray-900 font-semibold text-base">{categoryText}</p>
-                <p className="text-sm text-gray-500 mt-0.5">{formattedDate}</p>
+                <p className="text-sm text-gray-500 mt-0.5">{formattedDate(x.date)}</p>
             </div>
 
             <div className="flex items-center gap-6">
@@ -25,7 +25,7 @@ const ExpenseListItem = ({ x, handleDelete }) => {
                 <div className="flex items-center gap-2">
                     <FiArrowDownCircle className="w-5 h-5 text-red-600" />
                     <span className="text-red-600 font-bold text-lg tabular-nums">
-                        -${amount.toLocaleString()}
+                        Rs. {amount.toLocaleString()}
                     </span>
                 </div>
 
@@ -71,6 +71,13 @@ const Expense = () => {
             message.error("Failed to delete expense.");
         }
     };
+    const downloadExcelFile = () => {
+        const data = items.map(item => {
+            const date = new Date(item.date).toLocaleDateString();
+            return { category: item.category, amount: item.amount, date }
+        })
+        exportToExcel(data, "Expense_Report");
+    }
 
     return (
         <div className="p-6 md:p-10 bg-gray-100 min-h-screen">
@@ -82,12 +89,24 @@ const Expense = () => {
             <div className="bg-white rounded-xl shadow-lg p-6">
                 <div className="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
                     <h2 className="text-2xl font-bold text-gray-800">Expense Transactions</h2>
-                    <button
-                        onClick={() => setOpen(true)}
-                        className="flex items-center gap-1 px-5 py-2.5 rounded-full bg-rose-600 text-white font-semibold shadow-md hover:bg-rose-700 transition duration-150 ease-in-out"
-                    >
-                        <span className="text-xl leading-none">+</span> Add Expense
-                    </button>
+                    <div className="flex items-center gap-3">
+                        <Tooltip title="Download Excel Report" arrow>
+                            <button
+                                onClick={downloadExcelFile}
+                                className={`${items.length ? "" : "hidden"} group relative p-2 rounded-full border border-gray-300 hover:border-indigo-500 hover:bg-indigo-50 text-gray-600 hover:text-indigo-600 transition-all duration-200 ease-in-out shadow-sm`}
+                            >
+                                <FiDownload size={20} className="transition-transform group-hover:scale-110" />
+                            </button>
+                        </Tooltip>
+
+                        <button
+                            onClick={() => setOpen(true)}
+                            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-indigo-600 text-white font-semibold shadow-md hover:bg-indigo-700 active:bg-indigo-800 transition-all duration-200"
+                        >
+                            <span className="text-xl leading-none">+</span>
+                            <span>Add Income</span>
+                        </button>
+                    </div>
                 </div>
 
                 {isLoading ? (

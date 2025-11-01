@@ -20,6 +20,7 @@ const PasswordField = ({ id, label, placeholder, value, onChange }) => {
                     value={value}
                     onChange={onChange}
                     required
+                    minLength={6}
                     className="w-full px-4 py-3 border-b-2 border-gray-300 dark:border-gray-700 bg-transparent text-gray-900 dark:text-white rounded-none shadow-none focus:outline-none focus:border-indigo-500 transition duration-150 ease-in-out placeholder-gray-400 dark:placeholder-gray-500"
                 />
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer">

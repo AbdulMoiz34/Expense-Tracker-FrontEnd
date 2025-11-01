@@ -6,25 +6,31 @@ const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
         const item = payload[0];
         return (
-            <div className="p-3 bg-white border border-gray-300 rounded-lg shadow-md text-sm">
-                <p className="font-bold text-gray-800 border-b pb-1 mb-1">{item.name}</p>
-                <p className="text-gray-700">Amount: <span className="font-semibold text-base" style={{ color: item.color }}>${item.value.toLocaleString()}</span></p>
+            <div className="p-3.5 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg text-sm min-w-[140px] transition-all duration-200">
+                <p className="font-semibold text-gray-900 dark:text-gray-100 mb-1.5 tracking-tight">
+                    {item.name}
+                </p>
+                <div className="flex items-center justify-between text-gray-700 dark:text-gray-300">
+                    <span
+                        className="font-bold text-base"
+                        style={{ color: item.color }}
+                    >
+                        Rs. {item.value.toLocaleString()}
+                    </span>
+                </div>
             </div>
         );
     }
     return null;
 };
 
-const StatsChart = ({ data }) => {
-    const totalValue = data.reduce((sum, item) => sum + (item.value || 0), 0);
-    const totalCurrency = `$${totalValue.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
 
-    
+const StatsChart = ({ data }) => {
 
     return (
         <div className="bg-white rounded-2xl shadow-xl p-8 mt-8 w-full mx-auto transition-all duration-300">
 
-            <h2 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-3">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">
                 Expense Overview
             </h2>
             <div className="relative">
@@ -70,21 +76,21 @@ const StatsChart = ({ data }) => {
                 <div className="flex flex-col items-center p-2">
                     <div className="flex items-center gap-2 text-indigo-600 font-bold mb-1">
                         <span className="w-3 h-3 rounded-full bg-indigo-600 block"></span>
-                        <span>{data[0]?.name || "Category 1"}</span>
+                        <span>{data[0]?.name}</span>
                     </div>
                 </div>
 
                 <div className="flex flex-col items-center p-2 border-l border-r border-gray-100">
                     <div className="flex items-center gap-2 text-orange-500 font-bold mb-1">
                         <span className="w-3 h-3 rounded-full bg-orange-500 block"></span>
-                        <span>{data[1]?.name || "Category 2"}</span>
+                        <span>{data[1]?.name}</span>
                     </div>
                 </div>
 
                 <div className="flex flex-col items-center p-2">
                     <div className="flex items-center gap-2 text-red-500 font-bold mb-1">
                         <span className="w-3 h-3 rounded-full bg-red-500 block"></span>
-                        <span>{data[2]?.name || "Category 3"}</span>
+                        <span>{data[2]?.name}</span>
                     </div>
                 </div>
             </div>

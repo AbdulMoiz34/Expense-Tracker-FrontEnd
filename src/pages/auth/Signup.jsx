@@ -165,7 +165,7 @@ const Signup = () => {
                                 >
                                     {loading ? "Creating account..." : "SIGN UP"}
                                 </button>
-                            </div>
+                             </div>
                         </form>
                         {/* Footer */}
                         <div className="mt-6 text-left">

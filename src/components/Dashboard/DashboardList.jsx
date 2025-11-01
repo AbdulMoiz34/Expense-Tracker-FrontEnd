@@ -1,8 +1,13 @@
 import { FiArrowRight, FiCreditCard } from "react-icons/fi";
 import ListItem from "./ListItem";
 import { Link } from "react-router-dom";
+import { formattedDate } from "../../helpers";
 
 const DashboardList = ({ title, items = [], loading = false, mode }) => {
+
+    const iconColor = mode == "expense" ? "text-rose-500" : "text-green-600";
+
+
     return (
         <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 p-6 w-full mx-auto">
             {/* Header */}
@@ -21,15 +26,12 @@ const DashboardList = ({ title, items = [], loading = false, mode }) => {
                     <div className="text-gray-500">No items found</div>
                 ) : (
                     items.map((item) => {
-                        let color = "text-gray-900";
-                        if (mode === "expense" || item.type === "expense") color = "text-rose-500";
-                        if (mode === "income" || item.type === "income") color = "text-green-600";
-                        const icon = <FiCreditCard className={color} />;
+                        const icon = <FiCreditCard className={iconColor} />;
                         return (
                             <ListItem
-                                key={item._id || item.id}
+                                key={item._id}
                                 title={item.category || item.source}
-                                date={new Date(item.date || item.createdAt).toLocaleDateString()}
+                                date={formattedDate(item.date)}
                                 amount={item.amount}
                                 icon={icon}
                                 type={item.type || mode}

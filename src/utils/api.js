@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_BASE_URL = "https://expense-tracker-backend-amber.vercel.app/api";
+export const API_BASE_URL = "http://localhost:5000/api";
 
 const api = axios.create({
   baseURL: API_BASE_URL,

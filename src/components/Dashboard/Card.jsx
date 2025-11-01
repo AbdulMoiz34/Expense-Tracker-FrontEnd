@@ -21,7 +21,7 @@ const Card = ({ type, title, amount }) => {
             </div>
             <div>
                 <h4 className="text-gray-600 font-medium">{title}</h4>
-                <p className="text-2xl font-semibold text-gray-900">${amount.toLocaleString()}</p>
+                <p className="text-2xl font-semibold text-gray-900">Rs. {amount.toLocaleString()}</p>
             </div>
         </div>
     );

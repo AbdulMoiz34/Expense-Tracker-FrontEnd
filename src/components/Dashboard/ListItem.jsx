@@ -1,11 +1,10 @@
 const ListItem = ({ title, date, amount, icon, type }) => {
-    let color = "text-gray-700", prefix = "";
+    let color = "text-gray-700";
+
     if (type === "expense") {
         color = "text-rose-500";
-        prefix = "-";
     } else if (type === "income") {
         color = "text-green-600";
-        prefix = "+";
     }
     return (
         <div className="flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition-all p-4 rounded-xl cursor-pointer">
@@ -16,7 +15,7 @@ const ListItem = ({ title, date, amount, icon, type }) => {
                     <p className="text-xs text-gray-500">{date}</p>
                 </div>
             </div>
-            <p className={`${color} font-bold text-sm`}>{prefix}${amount}</p>
+            <p className={`${color} font-bold text-sm`}>Rs. {amount}</p>
         </div>
     );
 };
